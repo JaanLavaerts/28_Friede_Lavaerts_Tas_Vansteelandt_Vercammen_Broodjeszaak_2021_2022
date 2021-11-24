@@ -9,20 +9,24 @@ import java.util.HashMap;
 public class BroodjesDatabase {
 
     private static String FILEPATH = "./src/bestanden/";
-    private HashMap<String, ArrayList<Integer>> broodjes = new HashMap<>();
+    private HashMap<String, ArrayList<Double>> broodjes = new HashMap<>();
+
+    public HashMap<String, ArrayList<Double>> getBroodjes() {
+        return broodjes;
+    }
 
     public void loadBroodjes() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILEPATH))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILEPATH + "broodjes.txt"))) {
             String line = null;
             try {
                 line = reader.readLine();
                 while (line != null) {
                     String[] lineElements = line.split(",");
                     String naam = lineElements[0];
-                    int prijs = Integer.parseInt(lineElements[1]);
-                    int stock = Integer.parseInt(lineElements[2]);
-                    int verkocht = Integer.parseInt(lineElements[3]);
-                    ArrayList<Integer> data = new ArrayList<>();
+                    double prijs = Double.parseDouble(lineElements[1]);
+                    double stock = Double.parseDouble(lineElements[2]);
+                    double verkocht = Double.parseDouble(lineElements[3]);
+                    ArrayList<Double> data = new ArrayList<>();
                     data.add(prijs);
                     data.add(stock);
                     data.add(verkocht);
