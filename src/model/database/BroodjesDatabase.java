@@ -3,15 +3,14 @@ package model.database;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BroodjesDatabase {
 
     private static String FILEPATH = "./src/bestanden/";
-    private HashMap<String, ArrayList<Double>> broodjes = new HashMap<>();
+    private HashMap<String, HashMap<String, Double>> broodjes = new HashMap<>();
 
-    public HashMap<String, ArrayList<Double>> getBroodjes() {
+    public HashMap<String, HashMap<String, Double>> getBroodjes() {
         return broodjes;
     }
 
@@ -26,10 +25,10 @@ public class BroodjesDatabase {
                     double prijs = Double.parseDouble(lineElements[1]);
                     double stock = Double.parseDouble(lineElements[2]);
                     double verkocht = Double.parseDouble(lineElements[3]);
-                    ArrayList<Double> data = new ArrayList<>();
-                    data.add(prijs);
-                    data.add(stock);
-                    data.add(verkocht);
+                    HashMap<String, Double> data = new HashMap<>();
+                    data.put("prijs", prijs);
+                    data.put("stock", stock);
+                    data.put("verkocht", verkocht);
                     broodjes.put(naam, data);
                     line = reader.readLine();
                 }
