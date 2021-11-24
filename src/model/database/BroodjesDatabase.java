@@ -29,7 +29,7 @@ public class BroodjesDatabase {
                     broodjes.put(naam, data);
                     line = reader.readLine();
                 }
-            } catch (IOException) {
+            } catch (IOException e) {
 
             }
         } catch (IOException e) {
