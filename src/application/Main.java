@@ -13,10 +13,22 @@ public class Main extends Application {
 		try {
 			BroodjesDatabase database = new BroodjesDatabase();
 			database.loadBroodjes();
-			System.out.println((database.getBroodjes()));
+
+			//start unofficial tests
+			System.out.println(database.getBroodjes());
+			System.out.println(database.getBeleg());
+			System.out.println(database.getBroodStock("wit"));
+			System.out.println(database.getBroodPrijs("volkoren"));
+			System.out.println(database.getBroodVerkocht("mais"));
+			System.out.println(database.getBelegStock("hesp"));
+			System.out.println(database.getBelegPrijs("kaas"));
+			System.out.println(database.getBelegVerkocht("sla"));
+			//end tests
+
 			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root, 400, 400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			//moest dit wegdoen om te kunnen pushen, iets met een nullpointerexception
+			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {

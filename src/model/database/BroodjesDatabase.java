@@ -8,8 +8,8 @@ import java.util.HashMap;
 public class BroodjesDatabase {
 
     private static String FILEPATH = "./src/bestanden/";
-    private HashMap<String, HashMap<String, Double>> broodjes = new HashMap<>();
-    private HashMap<String, HashMap<String, Double>> beleg = new HashMap<>();
+    private HashMap<String, HashMap<String, Number>> broodjes = new HashMap<>();
+    private HashMap<String, HashMap<String, Number>> beleg = new HashMap<>();
 
 
     //constructor
@@ -21,38 +21,43 @@ public class BroodjesDatabase {
 
 
     //getter
-    public double getBroodStock(String broodsoort) {
-        return this.broodjes.get(broodsoort).get("stock");
+    public int getBroodStock(String broodsoort) {
+        return (int) this.broodjes.get(broodsoort).get("stock");
     }
 
     //getter
     public double getBroodPrijs(String broodsoort) {
-        return this.broodjes.get(broodsoort).get("prijs");
+        return (double) this.broodjes.get(broodsoort).get("prijs");
     }
 
     //getter
-    public double getBroodVerkocht(String broodsoort) {
-        return this.broodjes.get(broodsoort).get("verkocht");
+    public int getBroodVerkocht(String broodsoort) {
+        return(int)  this.broodjes.get(broodsoort).get("verkocht");
     }
 
     //getter
-    public double getBelegStock(String Beleg) {
-        return this.broodjes.get(Beleg).get("stock");
+    public int getBelegStock(String Beleg) {
+        return (int) this.beleg.get(Beleg).get("stock");
     }
 
     //getter
     public double getBelegPrijs(String Beleg) {
-        return this.broodjes.get(Beleg).get("prijs");
+        return (double) this.beleg.get(Beleg).get("prijs");
     }
 
     //getter
-    public double getBelegVerkocht(String Beleg) {
-        return this.broodjes.get(Beleg).get("verkocht");
+    public int getBelegVerkocht(String Beleg) {
+        return (int) this.beleg.get(Beleg).get("verkocht");
     }
 
-    //getter, liefst niet gebruiken buiten deze klasse, gebruik getters
-    public HashMap<String, HashMap<String, Double>> getBroodjes() {
+    //getter, liefst niet gebruiken buiten deze klasse, gebruik andere getters
+    public HashMap<String, HashMap<String, Number>> getBroodjes() {
         return broodjes;
+    }
+
+    //getter, liefst niet gebruiken buiten deze klasse, gebruik andere getters
+    public HashMap<String, HashMap<String, Number>> getBeleg() {
+        return beleg;
     }
 
     //loader
@@ -66,7 +71,7 @@ public class BroodjesDatabase {
     }
 
     //loads the thingy into the thingy
-    private void load(String load,  HashMap<String, HashMap<String, Double>> loadTo) {
+    private void load(String load,  HashMap<String, HashMap<String, Number>> loadTo) {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILEPATH + load + ".txt"))) {
             String line;
             try {
@@ -76,9 +81,9 @@ public class BroodjesDatabase {
                     String naam = lineElements[0];
                     double prijs = Double.parseDouble(lineElements[1]);
                     //waarom doubles ipv ints?
-                    double stock = Double.parseDouble(lineElements[2]);
-                    double verkocht = Double.parseDouble(lineElements[3]);
-                    HashMap<String, Double> data = new HashMap<>();
+                    int stock = Integer.parseInt(lineElements[2]);
+                    int verkocht = Integer.parseInt(lineElements[3]);
+                    HashMap<String, Number> data = new HashMap<>();
                     data.put("prijs", prijs);
                     data.put("stock", stock);
                     data.put("verkocht", verkocht);
