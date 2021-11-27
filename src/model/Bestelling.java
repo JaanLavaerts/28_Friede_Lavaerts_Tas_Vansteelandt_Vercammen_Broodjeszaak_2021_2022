@@ -10,7 +10,7 @@ public class Bestelling {
 
     //constructor,   public?
     public Bestelling() {
-        this.bestelling = new ArrayList<>();
+        this.bestelling = new ArrayList<Broodje>();
     }
 
     //getter
