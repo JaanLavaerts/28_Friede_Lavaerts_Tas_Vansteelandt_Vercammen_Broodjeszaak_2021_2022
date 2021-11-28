@@ -1,11 +1,10 @@
 package application;
-	
+
 import javafx.application.Application;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import model.database.BelegDatabase;
-import model.database.BroodjesDatabase;
+import javafx.stage.Stage;
+import model.service.Service;
 
 
 public class Main extends Application {
@@ -14,17 +13,16 @@ public class Main extends Application {
 		try {
 
 			//start unofficial tests
-			BroodjesDatabase brooddatabase = new BroodjesDatabase();
-			BelegDatabase belegdatabase = new BelegDatabase();
+			Service service = Service.getInstance();
 
-			System.out.println(brooddatabase.getDatabase());
-			System.out.println(belegdatabase.getDatabase());
-			System.out.println(brooddatabase.getStock("wit"));
-			System.out.println(brooddatabase.getPrijs("volkoren"));
-			System.out.println(brooddatabase.getVerkocht("mais"));
-			System.out.println(belegdatabase.getStock("hesp"));
-			System.out.println(belegdatabase.getPrijs("kaas"));
-			System.out.println(belegdatabase.getVerkocht("sla"));
+			System.out.println(service.getBroodjesService().getAll());
+			System.out.println(service.getBelegService().getAll());
+			System.out.println(service.getBroodjesService().getStock("wit"));
+			System.out.println(service.getBroodjesService().getPrijs("volkoren"));
+			System.out.println(service.getBroodjesService().getVerkocht("mais"));
+			System.out.println(service.getBelegService().getStock("hesp"));
+			System.out.println(service.getBelegService().getPrijs("kaas"));
+			System.out.println(service.getBelegService().getVerkocht("sla"));
 			//end tests
 
 			BorderPane root = new BorderPane();
