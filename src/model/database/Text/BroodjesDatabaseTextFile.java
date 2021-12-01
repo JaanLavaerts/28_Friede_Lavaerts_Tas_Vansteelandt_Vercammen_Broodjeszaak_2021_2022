@@ -3,6 +3,8 @@
  */
 package model.database.Text;
 
+import model.Beleg;
+import model.Brood;
 import model.database.Database;
 
 import java.util.HashMap;
@@ -10,13 +12,17 @@ import java.util.HashMap;
 public class BroodjesDatabaseTextFile extends LoaderTextFileLoader implements Database {
 
     @Override
-    public HashMap<String, HashMap<String, Number>> load() {
+    public HashMap<String, Object> load() {
         return load("broodjes");
     }
 
     @Override
-    public void safe(HashMap<String, HashMap<String, Number>> data) {
+    public void save(HashMap<String, Object> data) {
 
+    }
+
+    protected Object FormatData(String naam, double prijs, int stock, int verkocht){
+        return new Brood(naam, prijs, stock, verkocht);
     }
 
 }

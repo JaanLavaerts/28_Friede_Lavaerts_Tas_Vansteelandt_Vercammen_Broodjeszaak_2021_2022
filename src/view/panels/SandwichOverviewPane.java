@@ -26,6 +26,11 @@ public class SandwichOverviewPane extends GridPane {
 	private ObservableList<Brood> broodjes;
 
 	public SandwichOverviewPane() {
+		VBox root = new VBox();
+		root.setSpacing(10);
+		root.setPadding(new Insets(10, 10, 10, 10));
+		Label lblHeading = new Label("Movie Inventory");
+		lblHeading.setFont(new Font("Arial", 20));
 		this.setPadding(new Insets(5, 5, 5, 5));
         this.setVgap(5);
         this.setHgap(5);

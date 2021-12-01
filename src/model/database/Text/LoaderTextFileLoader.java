@@ -1,5 +1,7 @@
 package model.database.Text;
 
+import model.Brood;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,8 +12,8 @@ public abstract class LoaderTextFileLoader {
     private static final String FILEPATH = "./src/bestanden/";
 
     //loads the thingy into the thingy
-    protected HashMap<String, HashMap<String, Number>> load(String load) {
-        HashMap<String, HashMap<String, Number>> db = new HashMap<>();
+    protected HashMap<String, Object> load(String load) {
+        HashMap<String, Object> db = new HashMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FILEPATH + load + ".txt"))) {
             String line;
             try {
@@ -22,11 +24,7 @@ public abstract class LoaderTextFileLoader {
                     double prijs = Double.parseDouble(lineElements[1]);
                     int stock = Integer.parseInt(lineElements[2]);
                     int verkocht = Integer.parseInt(lineElements[3]);
-                    HashMap<String, Number> data = new HashMap<>();
-                    data.put("prijs", prijs);
-                    data.put("stock", stock);
-                    data.put("verkocht", verkocht);
-                    db.put(naam, data);
+                    db.put(naam, FormatData(naam, prijs,stock,verkocht));
                     line = reader.readLine();
                 }
             } catch (IOException e) {
@@ -38,5 +36,7 @@ public abstract class LoaderTextFileLoader {
         }
         return db;
     }
+
+    protected abstract Object FormatData(String naam, double prijs, int stock, int verkocht);
 
 }
