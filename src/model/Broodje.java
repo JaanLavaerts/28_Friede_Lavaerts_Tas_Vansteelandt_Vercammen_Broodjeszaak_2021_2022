@@ -1,72 +1,75 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Broodje {
 
     //vars
-    private String broodsoort;
-    private ArrayList<String> beleg = new ArrayList<String>();
-    /* 'Beleg' kan ook een abstracte klasse worden?
-        Elk beleg is dan een klasse die 'Beleg' extend.
-        Ik weet wel niet of dat het alleen meer werk maakt dus ben met 'String' gegaan voor nu.
-        Zelfde voor 'broodsoort'.*/
+    private Brood broodsoort;
+    private HashMap<Beleg, Integer> beleg;
 
 
 
     //lege constructor
     public Broodje() {
-        this.broodsoort = "no bread whatsoever (gluten free)";
-        this.beleg = new ArrayList<String>();
+        this.broodsoort = new Brood("Geen broood", 0,1,0);
+        this.beleg = new HashMap<Beleg, Integer>();
     }
 
     //constructor met alles al meegegeven
-    public Broodje(String broodsoort,ArrayList<String> beleg) {
+    public Broodje(Brood broodsoort,ArrayList<Beleg> beleg) {
         this.broodsoort = broodsoort;
-        this.beleg = (ArrayList<String>) beleg.clone();
+        this.beleg = (HashMap<Beleg, Integer>) beleg.clone();
     }
 
 
 
     //setter
-    public void setBroodsoort(String soort) {
+    public void setBroodsoort(Brood soort) {
         this.broodsoort = soort;
     }
 
     //getter
-    public String getBroodsoort() {
+    public Brood getBroodsoort() {
         return this.broodsoort;
     }
 
     //adder
-    public void addBeleg(String beleg) {
-        this.beleg.add(beleg);
+    public void addBeleg(Beleg beleg) {
+        addBeleg(beleg, 1);
     }
 
     //adder met aantal
-    public void addBeleg(String beleg, int aantal) {
-        for (int i = 0; i< aantal; i++) {
-            this.beleg.add(beleg);
+    public void addBeleg(Beleg beleg, int aantal) {
+        int amount = getBelegAmount(beleg) + aantal;
+        this.beleg.put(beleg, amount);
+    }
+
+    public int getBelegAmount(Beleg beleg) {
+        if (this.beleg.get(beleg) == null) {
+            return 0;
+        }
+        else {
+            return this.beleg.get(beleg);
         }
     }
 
     //remover
-    public void removeBeleg(String beleg) {
+    public void removeBeleg(Beleg beleg) {
         this.beleg.remove(beleg);
     }
 
     //remover met aantal te removen
-    public void removeBeleg(String beleg, int aantal) {
-        for (int i=0; i < aantal; i++) {
-            //breaks loop if no more 'beleg' to remove :)
-            if (!this.beleg.remove(beleg)) {
-                i = aantal;
-            }
+    public void removeBeleg(Beleg beleg, int aantal) {
+        addBeleg(beleg, -aantal);
+        if (this.beleg.get(beleg) < 1) {
+            this.beleg.remove(beleg);
         }
     }
 
     //getter
-    public ArrayList<String> getBeleg() {
-        return (ArrayList<String>) this.beleg.clone();
+    public HashMap<Beleg, Integer> getBeleg() {
+        return (HashMap<Beleg, Integer>) this.beleg.clone();
     }
 }
