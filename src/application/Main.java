@@ -17,12 +17,12 @@ public class Main extends Application {
 
 			System.out.println(service.getBroodjesService().getAll());
 			System.out.println(service.getBelegService().getAll());
-			System.out.println(service.getBroodjesService().getStock("wit"));
-			System.out.println(service.getBroodjesService().getPrijs("volkoren"));
-			System.out.println(service.getBroodjesService().getVerkocht("mais"));
-			System.out.println(service.getBelegService().getStock("hesp"));
-			System.out.println(service.getBelegService().getPrijs("kaas"));
-			System.out.println(service.getBelegService().getVerkocht("sla"));
+			System.out.println(service.getBroodjesService().getStockVanSoort("wit"));
+			System.out.println(service.getBroodjesService().getPrijsVanSoort("volkoren"));
+			System.out.println(service.getBroodjesService().getVerkochtVanSoort("mais"));
+			System.out.println(service.getBelegService().getStockVanSoort("hesp"));
+			System.out.println(service.getBelegService().getPrijsVanSoort("kaas"));
+			System.out.println(service.getBelegService().getVerkochtVanSoort("sla"));
 			//end tests
 
 			BorderPane root = new BorderPane();
