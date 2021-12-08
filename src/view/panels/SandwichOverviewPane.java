@@ -12,17 +12,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import model.Brood;
-import model.Broodje;
-import model.service.BroodjesService;
-import model.service.Service;
+import model.Item;
+import model.database.Service;
 
 
 public class SandwichOverviewPane extends GridPane {
 
-	private BroodjesService broodjesService = Service.getInstance().getBroodjesService();
-	private TableView<Brood> table;
-	private ObservableList<Brood> broodjes;
+	private TableView<Item> table;
+	private ObservableList<Item> items;
 
 	public SandwichOverviewPane() {
 		VBox root = new VBox();
@@ -34,17 +31,17 @@ public class SandwichOverviewPane extends GridPane {
         this.setVgap(5);
         this.setHgap(5);
 		this.add(new Label("Broodjes:"), 0, 0, 1, 1);
-		table = new TableView<Brood>();
+		table = new TableView<Item>();
 		refresh();
-		TableColumn<Brood, String> colTitle = new TableColumn<Brood, String>("broodjes soort");
+		TableColumn<Item, String> colTitle = new TableColumn<Item, String>("soort");
 		colTitle.setMinWidth(300);
-		colTitle.setCellValueFactory(new PropertyValueFactory<Brood, String>("beschrijving"));
-		TableColumn<Brood, Integer> colYear = new TableColumn<Brood, Integer>("prijs");
+		colTitle.setCellValueFactory(new PropertyValueFactory<Item, String>("beschrijving"));
+		TableColumn<Item, Integer> colYear = new TableColumn<Item, Integer>("prijs");
 		colYear.setMinWidth(100);
-		colYear.setCellValueFactory(new PropertyValueFactory<Brood, Integer>("prijs"));
-		TableColumn<Brood, Double> colPrice = new TableColumn<Brood, Double>("stock");
+		colYear.setCellValueFactory(new PropertyValueFactory<Item, Integer>("prijs"));
+		TableColumn<Item, Double> colPrice = new TableColumn<Item, Double>("stock");
 		colPrice.setMinWidth(100);
-		colPrice.setCellValueFactory(new PropertyValueFactory<Brood, Double>("instock"));
+		colPrice.setCellValueFactory(new PropertyValueFactory<Item, Double>("instock"));
 		table.getColumns().addAll(colTitle, colYear, colPrice);
 
 		this.getChildren().addAll(lblHeading, table);
@@ -58,8 +55,9 @@ public class SandwichOverviewPane extends GridPane {
 	}
 
 	public void refresh(){
-		broodjes = FXCollections.observableArrayList(broodjesService.getAll());
-		table.setItems(broodjes);
+		items = FXCollections.observableArrayList(Service.getInstance().getBelegService().getAll());
+		items.addAll(FXCollections.observableArrayList(Service.getInstance().getBroodjesService().getAll()));
+		table.setItems(items);
 		table.refresh();
 	}
 }
