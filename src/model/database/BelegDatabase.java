@@ -10,10 +10,17 @@ import java.util.stream.Collectors;
 
 public class BelegDatabase {
 
-    private LoadSaveStrategy database = LoadSaveStrategyFactory.createLoadSaveStrategy(LoadSaveStrategyEnum.TEKSTBELEG);
+    private LoadSaveStrategyEnum strat;
+    private LoadSaveStrategy database;
+
 
     public ArrayList<BelegSoort> getAll(){
         return database.load().values().stream().map(b -> (BelegSoort) b).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public void setLoadSaveStrategyEnum(LoadSaveStrategyEnum strat){
+        this.strat = strat;
+        database = LoadSaveStrategyFactory.createLoadSaveStrategy(strat);
     }
 
     public double getPrijsVanSoort(String soort){

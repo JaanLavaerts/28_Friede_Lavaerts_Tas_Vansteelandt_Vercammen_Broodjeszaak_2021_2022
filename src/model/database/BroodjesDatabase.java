@@ -10,13 +10,20 @@ import java.util.stream.Collectors;
 
 public class BroodjesDatabase {
 
-    private LoadSaveStrategy database = LoadSaveStrategyFactory.createLoadSaveStrategy(LoadSaveStrategyEnum.TEKSTBROODJE);
+    private LoadSaveStrategyEnum strat;
+    private LoadSaveStrategy database;
+
 
     public ArrayList<Broodje> getAll(){
         return database.load().values().stream()
                 .map(b -> (Broodje) b)
                 .sorted(Comparator.comparing(Broodje::getBeschrijving))
                 .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public void setLoadSaveStrategyEnum(LoadSaveStrategyEnum strat){
+        this.strat = strat;
+        database = LoadSaveStrategyFactory.createLoadSaveStrategy(strat);
     }
 
     public double getPrijsVanSoort(String soort){

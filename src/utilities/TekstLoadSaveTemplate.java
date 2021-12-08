@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-public abstract class TekstLoadSaveTemplate implements LoadSaveStrategy{
+public abstract class TekstLoadSaveTemplate{
 
     private static final String FILEPATH = "./src/bestanden/";
 

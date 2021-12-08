@@ -6,7 +6,7 @@ import utilities.TekstLoadSaveTemplate;
 
 import java.util.HashMap;
 
-public class BelegTekstLoadSaveStrategy extends TekstLoadSaveTemplate{
+public class BelegTekstLoadSaveStrategy extends TekstLoadSaveTemplate implements LoadSaveStrategy{
 
     @Override
     public HashMap<String, Object> load() {
