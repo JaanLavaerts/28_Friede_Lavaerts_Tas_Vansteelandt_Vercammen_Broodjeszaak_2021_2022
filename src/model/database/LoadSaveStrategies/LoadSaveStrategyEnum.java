@@ -5,10 +5,10 @@ import utilities.TekstLoadSaveTemplate;
 
 public enum LoadSaveStrategyEnum {
 
-    TEKSTBROODJE("src/model/database/LoadSaveStrategies/Text/BroodjeTekstLoadSaveStrategy.class"),
-    TEKSTBELEG("src/model/database/LoadSaveStrategies/Text/BelegTekstLoadSaveStrategy.class"),
-    EXCELBROODJE("src/model/database/LoadSaveStrategies/Excel/BroodjeExcelLoadSaveStrategy.class"),
-    EXCELBELEG("src/model/database/LoadSaveStrategies/Excel/BroodjeExcelLoadSaveStrategy.class");
+    TEKSTBROODJE("model.database.LoadSaveStrategies.Text.BroodjeTekstLoadSaveStrategy"),
+    TEKSTBELEG("model.database.LoadSaveStrategies.Text.BelegTekstLoadSaveStrategy"),
+    EXCELBROODJE("model.database.LoadSaveStrategies.Excel.BroodjeExcelLoadSaveStrategy"),
+    EXCELBELEG( "model.database.LoadSaveStrategies.Excel.BelegExcelLoadSaveStrategy");
 
 
     private String path;
