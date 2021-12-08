@@ -1,22 +1,21 @@
-package model.service;
+package model.database;
 
-import model.Brood;
 import model.Broodje;
-import model.database.Database;
-import model.database.Text.BroodjesDatabaseTextFile;
+import model.database.LoadSaveStrategies.LoadSaveStrategy;
+import model.database.LoadSaveStrategies.LoadSaveStrategyEnum;
+import model.database.LoadSaveStrategies.LoadSaveStrategyFactory;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class BroodjesService{
+public class BroodjesDatabase {
 
-    private Database database = new BroodjesDatabaseTextFile();
+    private LoadSaveStrategy database = LoadSaveStrategyFactory.createLoadSaveStrategy(LoadSaveStrategyEnum.TEKSTBROODJE);
 
-    public ArrayList<Brood> getAll(){
+    public ArrayList<Broodje> getAll(){
         return database.load().values().stream()
-                .map(b -> (Brood) b)
-                .sorted(Comparator.comparing(Brood::getBeschrijving))
+                .map(b -> (Broodje) b)
+                .sorted(Comparator.comparing(Broodje::getBeschrijving))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 

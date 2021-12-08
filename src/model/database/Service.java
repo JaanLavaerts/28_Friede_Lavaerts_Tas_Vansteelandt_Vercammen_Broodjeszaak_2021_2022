@@ -1,10 +1,10 @@
-package model.service;
+package model.database;
 
 public class Service {
 
     private static Service instance;
-    public BelegService belegService = new BelegService();
-    public BroodjesService broodjesService = new BroodjesService();
+    public BelegDatabase belegService = new BelegDatabase();
+    public BroodjesDatabase broodjesService = new BroodjesDatabase();
 
     private Service() {
     }
@@ -16,11 +16,11 @@ public class Service {
         return instance;
     }
 
-    public BelegService getBelegService() {
+    public BelegDatabase getBelegService() {
         return belegService;
     }
 
-    public BroodjesService getBroodjesService() {
+    public BroodjesDatabase getBroodjesService() {
         return broodjesService;
     }
 }

@@ -1,15 +1,15 @@
 /*
  * @author Maarten Vercammen
  */
-package model.database.Text;
+package model.database.LoadSaveStrategies.Text;
 
-import model.Beleg;
-import model.Brood;
-import model.database.Database;
+import model.Broodje;
+import model.database.LoadSaveStrategies.LoadSaveStrategy;
+import utilities.TekstLoadSaveTemplate;
 
 import java.util.HashMap;
 
-public class BroodjesDatabaseTextFile extends LoaderTextFileLoader implements Database {
+public class BroodjeTekstLoadSaveStrategy extends TekstLoadSaveTemplate implements LoadSaveStrategy {
 
     @Override
     public HashMap<String, Object> load() {
@@ -22,7 +22,7 @@ public class BroodjesDatabaseTextFile extends LoaderTextFileLoader implements Da
     }
 
     protected Object FormatData(String naam, double prijs, int stock, int verkocht){
-        return new Brood(naam, prijs, stock, verkocht);
+        return new Broodje(naam, prijs, stock, verkocht);
     }
 
 }

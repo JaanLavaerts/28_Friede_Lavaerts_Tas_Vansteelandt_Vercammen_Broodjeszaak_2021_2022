@@ -2,7 +2,7 @@ package application;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
-import model.service.Service;
+import model.database.Service;
 import view.AdminView;
 import view.KitchenView;
 import view.OrderView;

@@ -1,13 +1,13 @@
 package model;
 
-public class Beleg {
+public abstract class Item {
 
     private String beschrijving;
     private double prijs;
     private int instock;
     private int verkocht;
 
-    public Beleg(String beschrijving, double prijs, int instock, int verkocht) {
+    public Item(String beschrijving, double prijs, int instock, int verkocht) {
         this.beschrijving = beschrijving;
         this.prijs = prijs;
         this.instock = instock;
@@ -45,5 +45,11 @@ public class Beleg {
     public void setVerkocht(int verkocht) {
         this.verkocht = verkocht;
     }
+
+    public void addVerkocht(int aantal) {
+        this.verkocht += aantal;
+    }
+
+
 
 }

@@ -1,13 +1,13 @@
-package model.database.Text;
+package utilities;
 
-import model.Brood;
+import model.database.LoadSaveStrategies.LoadSaveStrategy;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-public abstract class LoaderTextFileLoader {
+public abstract class TekstLoadSaveTemplate implements LoadSaveStrategy{
 
     private static final String FILEPATH = "./src/bestanden/";
 

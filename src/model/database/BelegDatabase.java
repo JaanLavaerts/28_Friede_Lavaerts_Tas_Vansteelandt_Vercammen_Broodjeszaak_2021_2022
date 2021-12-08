@@ -1,19 +1,19 @@
-package model.service;
+package model.database;
 
-import model.Beleg;
-import model.database.Database;
-import model.database.Text.BelegDatabaseTextFile;
-import model.database.Text.BroodjesDatabaseTextFile;
+import model.BelegSoort;
+import model.database.LoadSaveStrategies.LoadSaveStrategy;
+import model.database.LoadSaveStrategies.LoadSaveStrategyEnum;
+import model.database.LoadSaveStrategies.LoadSaveStrategyFactory;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class BelegService {
+public class BelegDatabase {
 
-    private Database database = new BelegDatabaseTextFile();
+    private LoadSaveStrategy database = LoadSaveStrategyFactory.createLoadSaveStrategy(LoadSaveStrategyEnum.TEKSTBELEG);
 
-    public ArrayList<Beleg> getAll(){
-        return database.load().values().stream().map(b -> (Beleg) b).collect(Collectors.toCollection(ArrayList::new));
+    public ArrayList<BelegSoort> getAll(){
+        return database.load().values().stream().map(b -> (BelegSoort) b).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public double getPrijsVanSoort(String soort){
