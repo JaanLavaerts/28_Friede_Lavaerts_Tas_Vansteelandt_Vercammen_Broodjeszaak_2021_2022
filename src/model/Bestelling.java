@@ -25,20 +25,8 @@ public class Bestelling {
         this.bestelling.put(b, amount);
     }
 
-    //getter
-    public int getBroodjeAmount(Broodje b) {
-        if (this.bestelling.get(b) != null) {
-            return 0;
-        }
-        return this.bestelling.get(b);
-    }
+    public void removeBroodje(Broodje broodje) {
 
-    //remover
-    public void removeBroodje(Broodje b, int aantal) {
-        addBroodje(b, -aantal);
-        if (getBroodjeAmount(b) < 1) {
-            this.bestelling.remove(b);
-        }
     }
 
 

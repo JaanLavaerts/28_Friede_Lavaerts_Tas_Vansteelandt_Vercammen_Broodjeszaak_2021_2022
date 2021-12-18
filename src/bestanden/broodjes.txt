@@ -1,3 +1,4 @@
 wit,2.0,5,0
-mais,3.0,5,0
-volkoren,2.5,5,0
+volkoren,2.5,2,0
+mais,3.0,3,0
+Patrick,3.0,3,0

@@ -1,6 +1,7 @@
 package model.database;
 
 import model.Broodje;
+import model.Item;
 import model.database.LoadSaveStrategies.LoadSaveStrategy;
 import model.database.LoadSaveStrategies.LoadSaveStrategyEnum;
 import model.database.LoadSaveStrategies.LoadSaveStrategyFactory;

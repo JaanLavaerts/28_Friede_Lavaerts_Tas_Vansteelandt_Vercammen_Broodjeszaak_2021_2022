@@ -48,8 +48,6 @@ public class OrderView {
 		choiceBox.getItems().addAll("Goodkoopste broodje gratis", "2", "3", "4", "5");
 		choiceBox.setValue("Goodkoopste broodje gratis");
 
-
-
 		HBox paymentHBox = new HBox();
 		HBox paymentHBox2 = new HBox();
 		paymentHBox.setSpacing(10);
