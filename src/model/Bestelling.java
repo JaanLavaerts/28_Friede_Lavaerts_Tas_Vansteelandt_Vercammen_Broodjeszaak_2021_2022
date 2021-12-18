@@ -25,11 +25,6 @@ public class Bestelling {
         this.bestelling.put(b, amount);
     }
 
-    //adder
-    public void addBroodje(Broodje b) {
-        addBroodje(b, 1);
-    }
-
     //getter
     public int getBroodjeAmount(Broodje b) {
         if (this.bestelling.get(b) != null) {
