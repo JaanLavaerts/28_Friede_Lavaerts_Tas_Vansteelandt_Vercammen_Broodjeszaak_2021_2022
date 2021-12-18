@@ -68,6 +68,8 @@ public class OrderView {
 		Button toKitchenButton = new Button("Naar Keuken");
 		Label teBetalenLabel = new Label("Te betalen: XXXXXX");
 
+
+
 		paymentHBox2.getChildren().addAll(payButton, toKitchenButton);
 		paymentHBox.getChildren().addAll(afsluitenBestellingButton, teBetalenLabel);
 
