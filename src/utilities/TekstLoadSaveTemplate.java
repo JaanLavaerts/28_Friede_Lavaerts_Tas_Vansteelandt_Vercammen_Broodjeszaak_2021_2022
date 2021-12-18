@@ -14,8 +14,8 @@ public abstract class TekstLoadSaveTemplate{
     private static final String FILEPATH = "./src/bestanden/";
 
     //loads the thingy into the thingy
-    protected HashMap<String, Object> load(String load) {
-        HashMap<String, Object> db = new HashMap<>();
+    protected HashMap<String, Item> load(String load) {
+        HashMap<String, Item> db = new HashMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FILEPATH + load + ".txt"))) {
             String line;
             try {
@@ -39,6 +39,19 @@ public abstract class TekstLoadSaveTemplate{
         return db;
     }
 
-    protected abstract Object FormatData(String naam, double prijs, int stock, int verkocht);
+    protected void save(HashMap<String, Item> data, String type){
+        try (FileWriter writer = new FileWriter(FILEPATH + type + ".txt")) {
+            StringBuilder out = new StringBuilder();
+            for (Item i:
+                 data.values()) {
+                out.append(i.getBeschrijving() + "," + i.getPrijs() + "," + i.getInstock() + "," + i.getVerkocht() + "\n");
+            }
+            writer.write(out.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected abstract Item FormatData(String naam, double prijs, int stock, int verkocht);
 
 }

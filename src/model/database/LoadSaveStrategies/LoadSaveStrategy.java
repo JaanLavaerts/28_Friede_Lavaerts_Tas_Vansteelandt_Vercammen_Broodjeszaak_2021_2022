@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public interface LoadSaveStrategy {
 
-    HashMap<String, Object> load();
-    void save(HashMap<String, Object> data);
+    HashMap<String, Item> load();
+    void save(HashMap<String, Item> data);
 
 }

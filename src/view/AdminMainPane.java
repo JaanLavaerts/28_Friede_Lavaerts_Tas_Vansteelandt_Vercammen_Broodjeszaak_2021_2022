@@ -7,10 +7,13 @@ import javafx.scene.layout.BorderPane;
 import view.panels.SandwichOverviewPane;
 
 public class AdminMainPane extends BorderPane {
-	public AdminMainPane(){		
+
+    private SandwichOverviewPane sandwichOverviewPane;
+
+	public AdminMainPane(){
 	    TabPane tabPane = new TabPane(); 	    
         //Tab spelVerloopTab = new Tab("Spelverloop");
-        SandwichOverviewPane sandwichOverviewPane = new SandwichOverviewPane();
+        sandwichOverviewPane = new SandwichOverviewPane();
         Tab broodjesTab = new Tab("Broodjes/Beleg",sandwichOverviewPane);
         Tab instellingTab = new Tab("Instellingen");
         Tab statistiekTab = new Tab("Statistieken");
@@ -20,4 +23,8 @@ public class AdminMainPane extends BorderPane {
         tabPane.getTabs().add(instellingTab);
         this.setCenter(tabPane);
 	}
+
+    public void refresh(){
+        sandwichOverviewPane.refresh();
+    }
 }

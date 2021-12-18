@@ -60,4 +60,5 @@ public class SandwichOverviewPane extends GridPane {
 		table.setItems(items);
 		table.refresh();
 	}
+
 }

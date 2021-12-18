@@ -40,4 +40,22 @@ public class BroodjesDatabase {
         return getAll().stream().filter(b -> b.getBeschrijving().equals(soort)).findFirst().get().getVerkocht();
     }
 
+    public Broodje getBroodjeByName(String name){
+        return getAll().stream().filter(b -> b.getBeschrijving().equals(name)).findFirst().get();
+    }
+
+    public void aanpassenVoorraad(String name){
+        HashMap<String, Item> data = database.load();
+        Broodje broodje = (Broodje) data.get(name);
+        broodje.setInstock(broodje.getInstock() - 1);
+        data.put(name, broodje);
+        database.save(data);
+    }
+
+    public HashMap<String, Broodje> getVoorraadlijstBroodjes(){
+        HashMap<String, Item> data = database.load();
+        HashMap<String, Broodje> hashMap = new HashMap(data);
+        return hashMap;
+    }
+
 }

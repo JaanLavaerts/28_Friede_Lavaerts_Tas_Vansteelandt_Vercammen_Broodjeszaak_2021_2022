@@ -1,4 +1,5 @@
 package view;
+import controller.BestelViewController;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -11,13 +12,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import view.panels.BestellijnenTabelPane;
+import view.panels.SandwichOverviewPane;
+import view.panels.SelectButtonPane;
 
 // author : Jaan Lavaerts
 public class OrderView {
 
 	private Stage stage = new Stage();
+	private SelectButtonPane selectButtonPane;
+	private BestelViewController bestelViewController;
 		
-	public OrderView(){			
+	public OrderView(BestelViewController bestelViewController){
+		this.bestelViewController = bestelViewController;
 		stage.setTitle("ORDER VIEW");
 		stage.initStyle(StageStyle.UTILITY);
 		stage.setX(20);
@@ -29,6 +36,7 @@ public class OrderView {
 		stage.show();
 
 		GridPane gridPane = new GridPane();
+		selectButtonPane = new SelectButtonPane(bestelViewController);
 		root.getChildren().add(gridPane);
 
 		HBox newOrderHBox = new HBox();
@@ -66,7 +74,10 @@ public class OrderView {
 		gridPane.add(newOrderHBox, 0, 0, 2, 1);
 		gridPane.add(choiceBoxHBox, 4, 0);
 		gridPane.add(paymentHBox, 0, 5, 3, 1);
-		gridPane.add(paymentHBox2, 3, 5, 2, 1);
+		gridPane.add(paymentHBox2, 3, 5, 3, 3);
+		gridPane.add(selectButtonPane, 0,1, 5,1);
+		gridPane.add(new Label("Aantal Broodjes: "), 0, 2, 1, 1);
+		gridPane.add(new BestellijnenTabelPane(), 0,3, 5,1);
 
 		gridPane.setHgap(10);
 		gridPane.setVgap(10);
@@ -85,5 +96,14 @@ public class OrderView {
 			gridPane.getRowConstraints().add(row);
 		}
 
+	}
+
+	public SelectButtonPane getSelectButtonPane(){
+		return selectButtonPane;
+	}
+
+	public void refresh(){
+		stage.sizeToScene();
+		stage.show();
 	}
 }

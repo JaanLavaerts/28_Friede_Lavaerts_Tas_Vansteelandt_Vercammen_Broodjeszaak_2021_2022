@@ -5,24 +5,19 @@ import java.util.HashMap;
 
 public class Bestelling {
 
-    //vars
-    private HashMap<Broodje, Integer> bestelling;
-    //private BestellingState state;
+    private ArrayList<Bestellijn> bestelLijnen;
 
-    //constructor,   public?
     public Bestelling() {
-        this.bestelling = new HashMap<Broodje, Integer>();
+        this.bestelLijnen = new ArrayList<>();
     }
 
-    //getter
-    public HashMap<Broodje, Integer> getBestelling() {
-        return (HashMap<Broodje, Integer>) this.bestelling.clone();
+    public void getBestelling() {
+
     }
 
-    //adder
-    public void addBroodje(Broodje b, int aantal) {
-        int amount = getBroodjeAmount(b) + aantal;
-        this.bestelling.put(b, amount);
+    public void addBroodje(Broodje broodje) {
+        Bestellijn bestellijn = new Bestellijn(broodje);
+        bestelLijnen.add(bestellijn);
     }
 
     public void removeBroodje(Broodje broodje) {
@@ -30,5 +25,7 @@ public class Bestelling {
     }
 
 
-
+    public ArrayList<Bestellijn> getLijstBestellijnen() {
+        return bestelLijnen;
+    }
 }

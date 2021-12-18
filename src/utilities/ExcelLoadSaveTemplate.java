@@ -1,6 +1,7 @@
 package utilities;
 
 import jxl.read.biff.BiffException;
+import model.Item;
 import model.database.LoadSaveStrategies.LoadSaveStrategy;
 
 import java.io.File;
@@ -11,16 +12,16 @@ import java.util.Map;
 
 public abstract class ExcelLoadSaveTemplate extends ExcelPlugin{
 
-    public HashMap<String, Object> load(String load) {
+    public HashMap<String, Item> load(String load) {
 
-        HashMap<String, Object> data = new HashMap<>();
+        HashMap<String, Item> data = new HashMap<>();
 
         try {
             // first list has all the rows, second list has all the elements in a row
             ArrayList<ArrayList<String>> info = read(new File(String.format("./src/bestanden/%s.xls", load)));
             for (ArrayList<String> row:
                  info) {
-                Object o = FormatData(row.get(0), Double.parseDouble(row.get(1)), Integer.parseInt(row.get(2)) , Integer.parseInt(row.get(3)));
+                Item o = FormatData(row.get(0), Double.parseDouble(row.get(1)), Integer.parseInt(row.get(2)) , Integer.parseInt(row.get(3)));
                 data.put(row.get(0), o);
             }
 
@@ -31,9 +32,9 @@ public abstract class ExcelLoadSaveTemplate extends ExcelPlugin{
     }
 
 
-    public void save(HashMap<String, Object> data) {
+    public void save(HashMap<String, Item> data) {
 
     }
 
-    protected abstract Object FormatData(String naam, double prijs, int stock, int verkocht);
+    protected abstract Item FormatData(String naam, double prijs, int stock, int verkocht);
 }
