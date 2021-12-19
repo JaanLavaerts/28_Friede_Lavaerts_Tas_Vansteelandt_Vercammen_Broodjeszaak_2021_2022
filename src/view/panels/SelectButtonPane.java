@@ -10,18 +10,15 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import model.BelegSoort;
 import model.Broodje;
-import model.Item;
 import model.database.Service;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class SelectButtonPane extends VBox{
+public class SelectButtonPane extends VBox {
     final String IDLE_BUTTON_STYLE = "-fx-background-color: #aaa;";
     final String IDLE_BUTTON_STYLE2 = "-fx-background-color: #FFFF00;";
     final String HOVERED_BUTTON_STYLE = "-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;";
@@ -29,9 +26,13 @@ public class SelectButtonPane extends VBox{
 
     private ObservableList<Broodje> broodjes;
     private ObservableList<BelegSoort> beleg;
+    private ArrayList<Button> buttons = new ArrayList<>();
+    private HBox broodjesBox;
+    private BestelViewController bestelViewController;
 
-    public SelectButtonPane(BestelViewController bestelViewController){
-        HBox broodjesBox = new HBox();
+    public SelectButtonPane(BestelViewController bestelViewController) {
+        this.bestelViewController = bestelViewController;
+        broodjesBox = new HBox();
         HBox belegBox = new HBox();
         this.setSpacing(20);
         broodjesBox.setSpacing(5);
@@ -41,28 +42,16 @@ public class SelectButtonPane extends VBox{
 
         refresh();
 
-        for (Broodje brood:
-             broodjes) {
-            Button b = new Button(brood.getBeschrijving());
-            b.setOnAction((event) -> bestelViewController.toevoegenBroodje(brood.getBeschrijving()));
-            b.setBackground(new Background(new BackgroundFill(Color.GRAY, new CornerRadii(5), Insets.EMPTY)));
-            b.setMinWidth(10);
-            b.setStyle(IDLE_BUTTON_STYLE);
-            b.setCursor(Cursor.HAND);
-            b.setOnMouseEntered(e -> b.setStyle(HOVERED_BUTTON_STYLE));
-            b.setOnMouseExited(e -> b.setStyle(IDLE_BUTTON_STYLE));
+        for (Broodje brood :
+                broodjes) {
+            Button b = makeButtonBrood(brood.getBeschrijving());
             broodjesBox.getChildren().add(b);
+            buttons.add(b);
         }
 
         for (BelegSoort belegSoort:
                 beleg) {
-            Button b = new Button(belegSoort.getBeschrijving());
-            b.setStyle(IDLE_BUTTON_STYLE2);
-            b.setCursor(Cursor.HAND);
-            b.setOnMouseEntered(e -> b.setStyle(HOVERED_BUTTON_STYLE));
-            b.setOnMouseExited(e -> b.setStyle(IDLE_BUTTON_STYLE2));
-            b.setMinWidth(10);
-            b.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
+            Button b = makeButtonBeleg(belegSoort.getBeschrijving());
             belegBox.getChildren().add(b);
         }
 
@@ -78,13 +67,42 @@ public class SelectButtonPane extends VBox{
                 .filter(b -> b.getInstock() > 0)
                 .sorted(Comparator.comparing(BelegSoort::getBeschrijving))
                 .collect(Collectors.toCollection(ArrayList::new)));
+
+
     }
 
-    public void updateStatusBroodjesKnoppen(HashMap<String, Broodje> broodjeHashMap){
-        broodjes = FXCollections.observableArrayList((Collection<? extends Broodje>) broodjeHashMap.values().stream()
-                .map(b -> (Broodje) b)
-                .sorted(Comparator.comparing(Broodje::getBeschrijving))
-                .collect(Collectors.toCollection(ArrayList::new)));
+    public void updateStatusBroodjesKnoppen(HashMap<String, Broodje> broodjeHashMap) {
+        broodjesBox.getChildren().clear();
+        ArrayList<Broodje> values = broodjeHashMap.values().stream().sorted(Comparator.comparing(Broodje::getBeschrijving)).filter(b -> b.getInstock() > 0).collect(Collectors.toCollection(ArrayList::new));
+        for (Broodje value : values) {
+            Button b = makeButtonBrood(value.getBeschrijving());
+            broodjesBox.getChildren().add(b);
+        }
+    }
+
+    private Button makeButtonBrood(String name) {
+        Button b = makeBasicButton(name);
+        b.setOnAction((event) -> bestelViewController.toevoegenBroodje(name));
+        b.setStyle(IDLE_BUTTON_STYLE);
+        b.setOnMouseEntered(e -> b.setStyle(HOVERED_BUTTON_STYLE));
+        b.setOnMouseExited(e -> b.setStyle(IDLE_BUTTON_STYLE));
+        return b;
+    }
+
+    private Button makeButtonBeleg(String name) {
+        Button b = makeBasicButton(name);
+        b.setStyle(IDLE_BUTTON_STYLE2);
+        b.setOnMouseEntered(e -> b.setStyle(HOVERED_BUTTON_STYLE));
+        b.setOnMouseExited(e -> b.setStyle(IDLE_BUTTON_STYLE2));
+        return b;
+    }
+
+    private Button makeBasicButton(String name) {
+        Button b = new Button(name);
+        b.setCursor(Cursor.HAND);
+        b.setMinWidth(10);
+        b.setBackground(new Background(new BackgroundFill(Color.YELLOW, new CornerRadii(5), Insets.EMPTY)));
+        return b;
     }
 
 }
