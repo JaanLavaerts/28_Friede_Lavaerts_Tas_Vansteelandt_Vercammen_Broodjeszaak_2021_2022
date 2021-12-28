@@ -13,7 +13,7 @@ public class Bestellijn {
     public Bestellijn(Broodje broodje){
         this.broodje = broodje;
         this.naamBroodje = broodje.getBeschrijving();
-        Service.getInstance().getBroodjesService().aanpassenVoorraad(naamBroodje);
+        Service.getInstance().getBroodjesService().aanpassenVoorraadBroodje(naamBroodje, -1);
     }
 
     public String getBroodje() {

@@ -22,10 +22,20 @@ public class BestelViewController implements Observer {
     }
 
 
-public void toevoegenBroodje(String naam){
+    public void toevoegenBroodje(String naam) {
         facade.toevoegenBroodje(naam);
-        orderView.getSelectButtonPane().updateStatusBroodjesKnoppen(facade.getVoorraadlijstBroodjes());
+    }
+
+    public void toevoegenBeleg(String name) {
+        Bestellijn bestellijn = orderView.getBestellijnenTabelPane().getCurrentBestellijn();
+        if(bestellijn == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Geen broodje geselecteerd!");
+            alert.show();
+            return;
         }
+        facade.toevoegenBeleg(name, bestellijn);
+        orderView.getSelectButtonPane().updateStatusBelegKnoppen(facade.getVoorraadlijstBeleg());
+    }
 
     public void setOrderView(OrderView orderView) {
         this.orderView = orderView;
