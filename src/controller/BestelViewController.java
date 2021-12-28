@@ -39,6 +39,7 @@ public class BestelViewController implements Observer {
 
     public void setOrderView(OrderView orderView) {
         this.orderView = orderView;
+        orderView.setKortingChoice(facade.getSettingsKorting());
     }
 
     public void setAdminView(AdminView adminView) {
@@ -61,6 +62,7 @@ public class BestelViewController implements Observer {
         facade.startBestelling();
         orderView.setNewOrderButtonToInactive();
         orderView.setAfsluitenBestellingButtonToActive();
+        orderView.setKortingChoice(facade.getSettingsKorting());
     }
 
     public void afsluitenBestelling() {

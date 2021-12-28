@@ -15,10 +15,11 @@ public class AdminViewController implements Observer {
     public AdminViewController(BestelFacade facade){
         this.facade = facade;
         facade.addObserver(this, BestellingEvents.TO_KITCHEN);
-    }
+          }
 
     public void setAdminView(AdminView adminView){
         this.adminView = adminView;
+        adminView.getAdminMainPane().getAdminSettingsPane().setSettings(facade.getSettingsBroodjesDatabase(), facade.getSettingsBelegDatabase(), facade.getSettingsKorting());
     }
 
     @Override

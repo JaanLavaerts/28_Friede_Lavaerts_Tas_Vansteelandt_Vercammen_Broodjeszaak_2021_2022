@@ -15,6 +15,16 @@ public class Service {
     public BroodjesDatabase broodjesService = new BroodjesDatabase();
 
     private Service() {
+        Properties properties = new Properties();
+
+        try {
+            InputStream is = new FileInputStream("src/bestanden/settings.properties");
+            properties.load(is);
+        } catch (IOException e) {
+           throw new DomainException("could not find file" + e);
+        }
+        belegService.setLoadSaveStrategyEnum(LoadSaveStrategyEnum.valueOf(properties.getProperty("belegDatabase").toUpperCase()));
+        broodjesService.setLoadSaveStrategyEnum(LoadSaveStrategyEnum.valueOf(properties.getProperty("broodjesDatabase").toUpperCase()));
     }
 
     public static Service getInstance() {

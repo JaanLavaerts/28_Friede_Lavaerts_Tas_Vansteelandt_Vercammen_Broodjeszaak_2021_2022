@@ -2,10 +2,10 @@ package model.database.LoadSaveStrategies;
 
 public enum LoadSaveStrategyEnum {
 
-    TEKSTBROODJE("model.database.LoadSaveStrategies.Text.BroodjeTekstLoadSaveStrategy"),
-    TEKSTBELEG("model.database.LoadSaveStrategies.Text.BelegTekstLoadSaveStrategy"),
-    EXCELBROODJE("model.database.LoadSaveStrategies.Excel.BroodjeExcelLoadSaveStrategy"),
-    EXCELBELEG( "model.database.LoadSaveStrategies.Excel.BelegExcelLoadSaveStrategy");
+    BROODJESTXT("model.database.LoadSaveStrategies.Text.BroodjeTekstLoadSaveStrategy"),
+    BELEGTXT("model.database.LoadSaveStrategies.Text.BelegTekstLoadSaveStrategy"),
+    BROODJESXLS("model.database.LoadSaveStrategies.Excel.BroodjeExcelLoadSaveStrategy"),
+    BELEGXLS( "model.database.LoadSaveStrategies.Excel.BelegExcelLoadSaveStrategy");
 
 
     private String path;

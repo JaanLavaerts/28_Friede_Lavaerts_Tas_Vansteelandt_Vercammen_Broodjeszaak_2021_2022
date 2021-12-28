@@ -172,6 +172,10 @@ public class OrderView {
 		return choiceBox.getValue();
 	}
 
+	public void setKortingChoice(String korting){
+		choiceBox.setValue(korting);
+	}
+
 	public void refresh(){
 		selectButtonPane.refresh();
 		bestellijnenTabelPane.refresh();

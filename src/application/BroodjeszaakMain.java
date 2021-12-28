@@ -16,13 +16,12 @@ import view.OrderView;
 public class BroodjeszaakMain extends Application {
 	@Override
 	public void start(Stage primaryStage) {
-		Service.getInstance().getBelegService().setLoadSaveStrategyEnum(LoadSaveStrategyEnum.EXCELBELEG);
-		Service.getInstance().getBroodjesService().setLoadSaveStrategyEnum(LoadSaveStrategyEnum.TEKSTBROODJE);
+		Service.getInstance();
 		BestelFacade bestelFacade = new BestelFacade();
 		BestelViewController bestelViewController = new BestelViewController(bestelFacade);
 		KitchenViewController kitchenViewController = new KitchenViewController(bestelFacade);
 		AdminViewController adminViewController = new AdminViewController(bestelFacade);
-		AdminView adminView = new AdminView();
+		AdminView adminView = new AdminView(adminViewController);
 		OrderView orderView = new OrderView(bestelViewController);
 		KitchenView kitchenView = new KitchenView(kitchenViewController);
 		bestelViewController.setOrderView(orderView);

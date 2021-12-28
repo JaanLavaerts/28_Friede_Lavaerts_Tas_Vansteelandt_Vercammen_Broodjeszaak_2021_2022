@@ -41,16 +41,21 @@ public class KitchenView {
 
 		bestellingAfrondenButton = new Button("Bestelling afronden");
 		volgendeBestellingButton = new Button("Volgende bestelling");
+		bestellingAfrondenButton.setDisable(true);
+		volgendeBestellingButton.setDisable(true);
+		HBox aantalbroodjesBox = new HBox();
 		aantalBestellinenLabel = new Label("Aantal bestellingen: ");
 		aantalBroodjes = new Label("Aantal broodjes: ");
 		volgnummer = new Label("Aantal broodjes: ");
 		orderLabel = new Label("");
 
+		aantalbroodjesBox.getChildren().addAll(volgnummer, aantalBroodjes);
+
 		bestellingAfrondenButton.setOnAction(action -> controller.bestellingAfronden());
 		volgendeBestellingButton.setOnAction(action -> controller.volgendeBestelling());
 
 		hBox.getChildren().addAll(bestellingAfrondenButton,volgendeBestellingButton);
-		vBox.getChildren().addAll(aantalBestellinenLabel,hBox);
+		vBox.getChildren().addAll(aantalBestellinenLabel, aantalbroodjesBox, orderLabel, hBox);
 		root.getChildren().add(vBox);
 		stage.show();
 

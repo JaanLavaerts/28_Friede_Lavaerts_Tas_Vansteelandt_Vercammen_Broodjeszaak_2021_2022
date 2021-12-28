@@ -14,6 +14,8 @@ public class KitchenViewController implements Observer {
     public KitchenViewController(BestelFacade facade){
         this.facade = facade;
         facade.addObserver(this, BestellingEvents.TO_KITCHEN);
+        facade.addObserver(this, BestellingEvents.GETNEXTINQUEUE);
+        facade.addObserver(this, BestellingEvents.AFRONDEN_BESTELLING);
     }
 
     public void setKitchenView(KitchenView kitchenView) {
@@ -22,10 +24,27 @@ public class KitchenViewController implements Observer {
 
     @Override
     public void update(Bestelling bestelling, BestellingEvents bestellingEvents) {
-        kitchenView.updateInQueue(facade.getAmountInQueue());
-        kitchenView.setAmountBroodjes(facade.getAmountBroodjesForBestellingInQueue());
-        kitchenView.setBestelNumber(facade.getVolgnumberInQueue());
-        kitchenView.setOrder(facade.getKitchenOrder());
+        if(bestellingEvents == BestellingEvents.TO_KITCHEN) {
+            kitchenView.updateInQueue(facade.getAmountInQueue());
+            kitchenView.setEnableVolgendeBestelling();
+            kitchenView.setDisableBestellingafronden();
+        }
+        if(bestellingEvents == BestellingEvents.GETNEXTINQUEUE) {
+            kitchenView.setAmountBroodjes(facade.getAmountBroodjesForBestellingInQueue());
+            kitchenView.setBestelNumber(facade.getVolgnumberInQueue());
+            kitchenView.setOrder(facade.getKitchenOrder());
+            kitchenView.setEnableBestellingafronden();
+            kitchenView.setDisableVolgendeBestelling();
+        }
+        if(bestellingEvents == BestellingEvents.AFRONDEN_BESTELLING){
+            kitchenView.setAmountBroodjes(0);
+            kitchenView.setBestelNumber(0);
+            kitchenView.setOrder("");
+            kitchenView.setDisableBestellingafronden();
+            if(facade.getAmountInQueue() > 0){
+                kitchenView.setEnableVolgendeBestelling();
+            }
+        }
         kitchenView.refresh();
     }
 
@@ -35,6 +54,6 @@ public class KitchenViewController implements Observer {
 
     public void volgendeBestelling() {
         facade.volgendeBestelling();
-        facade.notifyObserver(BestellingEvents.TO_KITCHEN);
+        facade.notifyObserver(BestellingEvents.GETNEXTINQUEUE);
     }
 }

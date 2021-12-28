@@ -8,7 +8,9 @@ import model.kortingen.Korting;
 import model.kortingen.KortingEnum;
 import model.kortingen.KortingFactory;
 
+import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BestelFacade implements Subject  {
 
@@ -16,7 +18,6 @@ public class BestelFacade implements Subject  {
     Queue<Bestelling> queue = new ArrayDeque<>();
     Bestelling currentBestelling;
     Bestelling bestellingInKitchen;
-    Korting korting = new GeenKorting();
 
     public void startBestelling(){
         currentBestelling = new Bestelling();
@@ -177,6 +178,7 @@ public class BestelFacade implements Subject  {
     public void bestellingAfronden() {
         currentBestelling.afgewerkt();
         bestellingInKitchen = null;
+        notifyObserver(BestellingEvents.AFRONDEN_BESTELLING);
     }
 
     public void volgendeBestelling() {
@@ -195,13 +197,118 @@ public class BestelFacade implements Subject  {
 
     public String getKitchenOrder() {
         StringBuilder out = new StringBuilder();
+        HashMap<String, Integer> bestlijnAantal = new HashMap<String, Integer>();
         for (Bestellijn bestellijn:
                 bestellingInKitchen.getLijstBestellijnen()) {
-            out.append(bestellijn.getBroodje());
-            out.append(": ");
-            out.append(bestellijn.getBeleg());
+            String lijn = bestellijn.getBroodje() + ": " + formatBeleg(bestellijn.getBeleg());
+            if(bestlijnAantal.containsKey(lijn)){
+                bestlijnAantal.put(lijn, bestlijnAantal.get(lijn) + 1);
+            }else {
+                bestlijnAantal.put(lijn, 1);
+            }
+        }
+        for (String lijn:
+             bestlijnAantal.keySet()) {
+            out.append(bestlijnAantal.get(lijn));
+            out.append("x ");
+            out.append(lijn);
             out.append("\n");
         }
         return out.toString();
+    }
+
+
+
+    private boolean bestelijnIsTheSame(Bestellijn b1, Bestellijn b2){
+        List<Integer> list = new ArrayList<>();
+        if(!b1.getBroodje().equals(b2.getBroodje())){
+            return false;
+        }
+        ArrayList<String> beleg1 = new ArrayList<>(Arrays.asList(b1.getBeleg().split(" "))).stream().sorted().collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<String> beleg2 = new ArrayList<>(Arrays.asList(b2.getBeleg().split(" "))).stream().sorted().collect(Collectors.toCollection(ArrayList::new));
+        int minimumLeght = Math.min(beleg1.size(), beleg2.size());
+        for (int i = 0; i < minimumLeght; i++){
+            if(!beleg1.get(i).equals(beleg2.get(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private String formatBeleg(String beleg){
+        StringBuilder out = new StringBuilder();
+        ArrayList<String> sortedbeleg = new ArrayList<>(Arrays.asList(beleg.split(" "))).stream().sorted().collect(Collectors.toCollection(ArrayList::new));
+        HashMap<String, Integer> belegcounter = new HashMap<>();
+        for (String b:
+                sortedbeleg) {
+            if(belegcounter.containsKey(b)){
+                belegcounter.put(b, belegcounter.get(b) + 1);
+            }else {
+                belegcounter.put(b, 1);
+            }
+        }
+        for (String lijn:
+                belegcounter.keySet()) {
+            out.append(belegcounter.get(lijn));
+            out.append("x ");
+            out.append(lijn);
+            out.append(", ");
+        }
+        out.delete(out.length() - 2, out.length() - 1);
+        return out.toString();
+    }
+
+    public void saveSettings(String broodjesDatabase, String belegDatabase, String kortingChoice) {
+        Properties properties = new Properties();
+        properties.setProperty("broodjesDatabase", broodjesDatabase.replace(".", ""));
+        properties.setProperty("belegDatabase", belegDatabase.replace(".", ""));
+        properties.setProperty("kortingChoice", kortingChoice);
+        try {
+            File file = new File("src/bestanden/settings.properties");
+            FileOutputStream fileOut = new FileOutputStream(file);
+            properties.store(fileOut, "Favorite Things");
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public String getSettingsBroodjesDatabase() {
+        try {
+            Properties properties = new Properties();
+            InputStream is = new FileInputStream("src/bestanden/settings.properties");
+            properties.load(is);
+            String prop = properties.getProperty("broodjesDatabase");
+            String data = prop.substring(0,prop.length() - 3) + "." + prop.substring(prop.length() -3);
+            return data;
+        } catch (IOException e) {
+            throw new DomainException(" file not found" + e.getMessage());
+        }
+
+    }
+
+    public String getSettingsBelegDatabase() {
+        try {
+            Properties properties = new Properties();
+            InputStream is = new FileInputStream("src/bestanden/settings.properties");
+            properties.load(is);
+            String prop = properties.getProperty("belegDatabase");
+            String data = prop.substring(0,prop.length() - 3) + "." + prop.substring(prop.length() -3);
+            return data;
+        } catch (IOException e) {
+            throw new DomainException(" file not found" + e.getMessage());
+        }
+    }
+
+    public String getSettingsKorting() {
+        try {
+            Properties properties = new Properties();
+            InputStream is = new FileInputStream("src/bestanden/settings.properties");
+            properties.load(is);
+            return properties.getProperty("kortingChoice");
+        } catch (IOException e) {
+            throw new DomainException(" file not found" + e.getMessage());
+        }
     }
 }
