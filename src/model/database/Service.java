@@ -1,5 +1,13 @@
 package model.database;
 
+import model.DomainException;
+import model.database.LoadSaveStrategies.LoadSaveStrategyEnum;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class Service {
 
     private static Service instance;

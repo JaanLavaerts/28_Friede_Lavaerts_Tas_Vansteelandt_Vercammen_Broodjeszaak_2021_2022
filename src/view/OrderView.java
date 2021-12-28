@@ -18,7 +18,6 @@ import view.panels.CloneDeleteBroodjePane;
 import view.panels.SandwichOverviewPane;
 import view.panels.SelectButtonPane;
 
-// author : Jaan Lavaerts
 public class OrderView {
 
 	private Stage stage = new Stage();

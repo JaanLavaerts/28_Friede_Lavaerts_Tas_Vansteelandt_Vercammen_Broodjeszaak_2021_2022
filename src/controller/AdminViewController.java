@@ -25,4 +25,12 @@ public class AdminViewController implements Observer {
     public void update(Bestelling bestelling, BestellingEvents bestellingEvents) {
         adminView.refresh();
     }
+
+    public void saveSettings() {
+        String broodjesDatabase = adminView.getAdminMainPane().getAdminSettingsPane().getBroodjeDatabaseChoice();
+        String belegDatabase = adminView.getAdminMainPane().getAdminSettingsPane().getBelegDatabaseChoice();
+        String kortingChoice = adminView.getAdminMainPane().getAdminSettingsPane().getKortingChoice();
+        facade.saveSettings(broodjesDatabase, belegDatabase, kortingChoice);
+        adminView.getAdminMainPane().getAdminSettingsPane().setSettings(broodjesDatabase, belegDatabase, kortingChoice);
+    }
 }
