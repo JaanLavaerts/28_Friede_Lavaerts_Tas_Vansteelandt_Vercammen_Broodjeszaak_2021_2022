@@ -1,28 +1,55 @@
 package model;
 
+import controller.BestelViewController;
+import javafx.scene.control.Alert;
 import model.database.Service;
+import model.kortingen.GeenKorting;
+import model.kortingen.Korting;
+import model.kortingen.KortingEnum;
+import model.kortingen.KortingFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class BestelFacade implements Subject  {
 
     HashMap<BestellingEvents, ArrayList<Observer>> observers = new HashMap<>();
-    Bestelling bestelling;
+    Queue<Bestelling> queue = new ArrayDeque<>();
+    Bestelling currentBestelling;
+    Bestelling bestellingInKitchen;
+    Korting korting = new GeenKorting();
 
-    public void toevoegenBroodje(String name){
-        Broodje broodje = Service.getInstance().getBroodjesService().getBroodjeByName(name);
-        bestelling = new Bestelling();
-        bestelling.addBroodje(broodje);
+    public void startBestelling(){
+        currentBestelling = new Bestelling();
+        currentBestelling.startBestelling();
         notifyObserver(BestellingEvents.TOEVOEGEN_BROODJE);
     }
 
+
+    public void toevoegenBroodje(String name){
+        currentBestelling.toevoegenBroodje();
+        Broodje broodje = Service.getInstance().getBroodjesService().getBroodjeByName(name);
+        currentBestelling.addBroodje(broodje);
+        notifyObserver(BestellingEvents.TOEVOEGEN_BROODJE);
+    }
+
+    public void toevoegenBeleg(String name, Bestellijn bestellijn) {
+        currentBestelling.toevoegenBeleg();
+        BelegSoort belegSoort = Service.getInstance().getBelegService().getBelegByName(name);
+        bestellijn.addBeleg(belegSoort);
+
+        notifyObserver(BestellingEvents.TOEVOEGEN_BELEG);
+    }
+
     public ArrayList<Bestellijn> getLijstBestellijnen(){
-        return bestelling.getLijstBestellijnen();
+        return currentBestelling.getLijstBestellijnen();
     }
 
     public HashMap<String, Broodje> getVoorraadlijstBroodjes(){
         return Service.getInstance().getBroodjesService().getVoorraadlijstBroodjes();
+    }
+
+    public HashMap<String, BelegSoort> getVoorraadlijstBeleg() {
+        return Service.getInstance().getBelegService().getVoorraadlijstBeleg();
     }
 
     @Override

@@ -23,8 +23,19 @@ public class OrderView {
 
 	private Stage stage = new Stage();
 	private SelectButtonPane selectButtonPane;
+	private CloneDeleteBroodjePane cloneDeleteBroodjePane;
+	private BestellijnenTabelPane bestellijnenTabelPane;
 	private BestelViewController bestelViewController;
-		
+	private Button newOrderButton;
+	private Button afsluitenBestellingButton;
+	private Button payButton;
+	private Button toKitchenButton;
+	private Label aantalbroodjesLabel;
+	private Button annuleerOrderButton;
+	private Label teBetalenLabel;
+	private Label SerialNumberLabel;
+	private ChoiceBox<String> choiceBox;
+
 	public OrderView(BestelViewController bestelViewController){
 		this.bestelViewController = bestelViewController;
 		stage.setTitle("ORDER VIEW");
@@ -46,10 +57,11 @@ public class OrderView {
 		newOrderHBox.setSpacing(10);
 		newOrderHBox.setAlignment(Pos.TOP_LEFT);
 
-		Button newOrderButton = new Button("Nieuwe Bestelling");
-		Label SerialNumberLabel = new Label("Volgnr: ");
+		newOrderButton = new Button("Nieuwe Bestelling");
+		newOrderButton.setOnAction((event) -> bestelViewController.startBestelling());
+		SerialNumberLabel = new Label("Volgnr: ");
 		HBox choiceBoxHBox = new HBox();
-		ChoiceBox<String> choiceBox = new ChoiceBox();
+		choiceBox = new ChoiceBox();
 
 		newOrderHBox.getChildren().addAll(newOrderButton, SerialNumberLabel);
 		choiceBoxHBox.setSpacing(10);
@@ -66,10 +78,16 @@ public class OrderView {
 		paymentHBox.setAlignment(Pos.BOTTOM_LEFT);
 		paymentHBox2.setAlignment(Pos.BOTTOM_RIGHT);
 
-		Button afsluitenBestellingButton = new Button("Aflsuiten Bestelling");
-		Button payButton = new Button("Betaal");
-		Button toKitchenButton = new Button("Naar Keuken");
-		Label teBetalenLabel = new Label("Te betalen: XXXXXX");
+		afsluitenBestellingButton = new Button("Aflsuiten Bestelling");
+		afsluitenBestellingButton.setDisable(true);
+		afsluitenBestellingButton.setOnAction((event -> bestelViewController.afsluitenBestelling()));
+		payButton = new Button("Betaal");
+		payButton.setDisable(true);
+		payButton.setOnAction((event -> bestelViewController.payBestelling()));
+		toKitchenButton = new Button("Naar Keuken");
+		toKitchenButton.setDisable(true);
+		toKitchenButton.setOnAction(event -> bestelViewController.toKitchen());
+		teBetalenLabel = new Label("Te betalen: ");
 
 		annuleerOrderButton = new Button("Annuleer Bestelling");
 		annuleerOrderButton.setOnAction(event -> bestelViewController.annuleer());
@@ -77,13 +95,17 @@ public class OrderView {
 		paymentHBox2.getChildren().addAll(payButton, toKitchenButton);
 		paymentHBox.getChildren().addAll(afsluitenBestellingButton, teBetalenLabel);
 
+		bestellijnenTabelPane = new BestellijnenTabelPane();
+		aantalbroodjesLabel =	new Label("Aantal Broodjes: ");
 		gridPane.add(newOrderHBox, 0, 0, 2, 1);
 		gridPane.add(choiceBoxHBox, 4, 0);
 		gridPane.add(paymentHBox, 0, 5, 3, 3);
 		gridPane.add(paymentHBox2, 3, 5, 3, 3);
 		gridPane.add(selectButtonPane, 0,1, 5,1);
-		gridPane.add(new Label("Aantal Broodjes: "), 0, 2, 1, 1);
-		gridPane.add(new BestellijnenTabelPane(), 0,3, 5,1);
+		gridPane.add(cloneDeleteBroodjePane, 4,3, 1,1);
+		gridPane.add(annuleerOrderButton, 4,4, 1,1 );
+		gridPane.add(aantalbroodjesLabel, 0, 2, 5, 1);
+		gridPane.add(bestellijnenTabelPane, 0,3, 4,1);
 
 		gridPane.setHgap(10);
 		gridPane.setVgap(10);
@@ -107,8 +129,53 @@ public class OrderView {
 	public SelectButtonPane getSelectButtonPane(){
 		return selectButtonPane;
 	}
+	public BestellijnenTabelPane getBestellijnenTabelPane(){
+		return bestellijnenTabelPane;
+	}
+
+	public void setNewOrderButtonToInactive(){
+		newOrderButton.setDisable(true);
+	}
+	public void setNewOrderButtonToActive(){
+		newOrderButton.setDisable(false);
+	}
+	public void setPayButtonToActive(){
+		payButton.setDisable(false);
+	}
+	public void setPayButtonToInactive(){
+		payButton.setDisable(true);
+	}
+	public void setToKitchenButtonToActive(){
+		toKitchenButton.setDisable(false);
+	}
+	public void setToKitchenButtonToInactive(){
+		toKitchenButton.setDisable(true);
+	}
+	public void setAfsluitenBestellingButtonToInactive(){
+		afsluitenBestellingButton.setDisable(true);
+	}
+	public void setAfsluitenBestellingButtonToActive(){
+		afsluitenBestellingButton.setDisable(false);
+	}
+
+	public void setAantalbroodjesLabel(int aantal){
+		aantalbroodjesLabel.setText("Aantal Broodjes: " + aantal);
+	}
+	public void setVolgNummerLabel(int volgNummer){
+		SerialNumberLabel.setText("Volgnr: " + volgNummer);
+	}
+
+	public void setPrice(double price){
+		teBetalenLabel.setText("Te betalen: €"+ price);
+	}
+
+	public String getKortingChoice(){
+		return choiceBox.getValue();
+	}
 
 	public void refresh(){
+		selectButtonPane.refresh();
+		bestellijnenTabelPane.refresh();
 		stage.sizeToScene();
 		stage.show();
 	}

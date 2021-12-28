@@ -11,21 +11,30 @@ import jxl.write.biff.RowsExceededException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.stream.Collectors;
+
+import model.Item;
 
 public class ExcelPlugin {
 
-    public void write(File file, ArrayList<ArrayList<String>> args)
+    public void write(File file, HashMap<String, Item> data)
             throws BiffException, IOException, RowsExceededException, WriteException{
 
         WritableWorkbook workbook = Workbook.createWorkbook(file);
         workbook.createSheet("sheet1", 0);
         WritableSheet sheet = workbook.getSheet(0);
-        for(int i = 0; i < args.size(); i++){
-            ArrayList<String> parameters = args.get(i);
-            for(int j = 0; j < parameters.size(); j++){
-                Label label = new Label(j, i, parameters.get(j));
-                sheet.addCell(label);
-            }
+        ArrayList<Item> items = data.values().stream().collect(Collectors.toCollection(ArrayList::new));
+        for(int i = 0; i < items.size(); i++){
+            Item item = items.get(i);
+            Label name = new Label(0,i,item.getBeschrijving());
+            sheet.addCell(name);
+            Label prijs = new Label(1,i,String.valueOf(item.getPrijs()));
+            sheet.addCell(prijs);
+            Label stock = new Label(2,i,String.valueOf(item.getInstock()));
+            sheet.addCell(stock);
+            Label verkocht = new Label(3,i,String.valueOf(item.getVerkocht()));
+            sheet.addCell(verkocht);
         }
         workbook.write();
         workbook.close();

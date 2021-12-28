@@ -1,18 +1,42 @@
 package model;
 
+import model.states.BestellingState;
+import model.states.BestellingStateInterface;
+import model.states.InWacht;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Bestelling {
+public class Bestelling implements BestellingStateInterface {
+
+    public static int getVOLGNR() {
+        return VOLGNR;
+    }
+
+    private static int VOLGNR = 0;
 
     private ArrayList<Bestellijn> bestelLijnen;
 
+    private BestellingState state;
+    private int volgnr;
+
     public Bestelling() {
         this.bestelLijnen = new ArrayList<>();
+        this.state = new InWacht(this);
+        volgnr = VOLGNR;
+        VOLGNR += 1;
     }
 
     public void getBestelling() {
 
+    }
+
+    public int getVolgnr(){
+        return volgnr;
+    }
+
+    public void setState(BestellingState state){
+        this.state = state;
     }
 
     public void addBroodje(Broodje broodje) {
@@ -20,8 +44,8 @@ public class Bestelling {
         bestelLijnen.add(bestellijn);
     }
 
-    public void removeBroodje(Broodje broodje) {
-
+    public void removeBroodje(Bestellijn bestellijn) {
+        bestelLijnen.remove(bestellijn);
     }
 
     public ArrayList<Bestellijn> getLijstBestellijnen() {

@@ -29,6 +29,5 @@ public class AdminView {
 
 	public void refresh(){
 		adminMainPane.refresh();
-
 	}
 }

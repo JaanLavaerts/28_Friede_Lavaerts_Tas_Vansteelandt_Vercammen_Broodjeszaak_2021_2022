@@ -33,8 +33,12 @@ public abstract class ExcelLoadSaveTemplate extends ExcelPlugin{
     }
 
 
-    public void save(HashMap<String, Item> data) {
-
+    public void save(HashMap<String, Item> data, String load) {
+        try {
+            write(new File(String.format("./src/bestanden/%s.xls", load)), data);
+        } catch (BiffException | IOException | WriteException e) {
+            throw new IllegalArgumentException("Fout bij schrijven van bestand beleg.xls of broodjes.xls");
+        }
     }
 
     protected abstract Item FormatData(String naam, double prijs, int stock, int verkocht);

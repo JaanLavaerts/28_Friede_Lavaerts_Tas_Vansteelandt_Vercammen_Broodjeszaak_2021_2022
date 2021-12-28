@@ -15,11 +15,12 @@ import model.Item;
 import model.database.Service;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class BestellijnenTabelPane extends GridPane {
 
-    private TableView<Item> table;
-    private ObservableList<Item> items;
+    private TableView<Bestellijn> table;
+    private ObservableList<Bestellijn> items;
     private ArrayList<Bestellijn> bestellijnen = new ArrayList<>();
 
     public BestellijnenTabelPane() {
@@ -32,14 +33,14 @@ public class BestellijnenTabelPane extends GridPane {
         this.setVgap(5);
         this.setHgap(5);
         this.add(new Label("Broodjes:"), 0, 0, 1, 1);
-        table = new TableView<Item>();
+        table = new TableView<Bestellijn>();
         //refresh();
-        TableColumn<Item, String> colBroodje = new TableColumn<Item, String>("Broodje");
+        TableColumn<Bestellijn, String> colBroodje = new TableColumn<Bestellijn, String>("Broodje");
         colBroodje.setMinWidth(100);
-        colBroodje.setCellValueFactory(new PropertyValueFactory<Item, String>("beschrijving"));
-        TableColumn<Item, Integer> colBeleg = new TableColumn<Item, Integer>("Beleg");
+        colBroodje.setCellValueFactory(new PropertyValueFactory<Bestellijn, String>("broodje"));
+        TableColumn<Bestellijn, String> colBeleg = new TableColumn<Bestellijn, String>("Beleg");
         colBeleg.setMinWidth(300);
-        colBeleg.setCellValueFactory(new PropertyValueFactory<Item, Integer>("prijs"));
+        colBeleg.setCellValueFactory(new PropertyValueFactory<Bestellijn, String>("beleg"));
         table.getColumns().addAll(colBroodje, colBeleg);
 
         this.getChildren().addAll(lblHeading, table);
@@ -48,18 +49,22 @@ public class BestellijnenTabelPane extends GridPane {
 
     public void updateBestellijnen(ArrayList<Bestellijn> bestellijnen){
         this.bestellijnen = bestellijnen;
-
+        refresh();
     }
 
     public void refresh(){
-        items = FXCollections.observableArrayList(Service.getInstance().getBelegService().getAll());
-        items.addAll(FXCollections.observableArrayList(Service.getInstance().getBroodjesService().getAll()));
+        ArrayList<Bestellijn> item = bestellijnen;
+        items = FXCollections.observableArrayList(item);
         table.setItems(items);
         table.refresh();
     }
 
+    public Bestellijn getCurrentBestellijn(){
+        return table.getSelectionModel().getSelectedItem();
+    }
 
-
-
+    public ArrayList<Bestellijn> getBestellijnen(){
+        return bestellijnen;
+    }
 
 }

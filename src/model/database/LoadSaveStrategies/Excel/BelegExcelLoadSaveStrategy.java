@@ -15,7 +15,7 @@ public class BelegExcelLoadSaveStrategy extends ExcelLoadSaveTemplate implements
 
     @Override
     public void save(HashMap<String, Item> data) {
-        save(data);
+        save(data, "beleg");
     }
 
     @Override

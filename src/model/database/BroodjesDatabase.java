@@ -44,10 +44,10 @@ public class BroodjesDatabase {
         return getAll().stream().filter(b -> b.getBeschrijving().equals(name)).findFirst().get();
     }
 
-    public void aanpassenVoorraad(String name){
+    public void aanpassenVoorraadBroodje(String name, int amount){
         HashMap<String, Item> data = database.load();
         Broodje broodje = (Broodje) data.get(name);
-        broodje.setInstock(broodje.getInstock() - 1);
+        broodje.setInstock(broodje.getInstock() + amount);
         data.put(name, broodje);
         database.save(data);
     }

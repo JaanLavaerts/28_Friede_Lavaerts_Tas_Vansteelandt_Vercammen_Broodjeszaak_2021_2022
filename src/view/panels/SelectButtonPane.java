@@ -29,12 +29,13 @@ public class SelectButtonPane extends VBox {
     private ObservableList<BelegSoort> beleg;
     private ArrayList<Button> buttons = new ArrayList<>();
     private HBox broodjesBox;
+    private HBox belegBox;
     private BestelViewController bestelViewController;
 
     public SelectButtonPane(BestelViewController bestelViewController) {
         this.bestelViewController = bestelViewController;
         broodjesBox = new HBox();
-        HBox belegBox = new HBox();
+        belegBox = new HBox();
         this.setSpacing(20);
         broodjesBox.setSpacing(5);
         belegBox.setSpacing(5);
@@ -68,8 +69,6 @@ public class SelectButtonPane extends VBox {
                 .filter(b -> b.getInstock() > 0)
                 .sorted(Comparator.comparing(BelegSoort::getBeschrijving))
                 .collect(Collectors.toCollection(ArrayList::new)));
-
-
     }
 
     public void updateStatusBroodjesKnoppen(HashMap<String, Broodje> broodjeHashMap) {
@@ -78,6 +77,15 @@ public class SelectButtonPane extends VBox {
         for (Broodje value : values) {
             Button b = makeButtonBrood(value.getBeschrijving());
             broodjesBox.getChildren().add(b);
+        }
+    }
+
+    public void updateStatusBelegKnoppen(HashMap<String, BelegSoort> belegHashMap) {
+        belegBox.getChildren().clear();
+        ArrayList<BelegSoort> values = belegHashMap.values().stream().sorted(Comparator.comparing(BelegSoort::getBeschrijving)).filter(b -> b.getInstock() > 0).collect(Collectors.toCollection(ArrayList::new));
+        for (BelegSoort value : values) {
+            Button b = makeButtonBeleg(value.getBeschrijving());
+            belegBox.getChildren().add(b);
         }
     }
 
@@ -92,6 +100,7 @@ public class SelectButtonPane extends VBox {
 
     private Button makeButtonBeleg(String name) {
         Button b = makeBasicButton(name);
+        b.setOnAction(event -> bestelViewController.toevoegenBeleg(name));
         b.setStyle(IDLE_BUTTON_STYLE2);
         b.setOnMouseEntered(e -> b.setStyle(HOVERED_BUTTON_STYLE));
         b.setOnMouseExited(e -> b.setStyle(IDLE_BUTTON_STYLE2));

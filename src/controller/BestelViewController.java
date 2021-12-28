@@ -1,41 +1,57 @@
 package controller;
 
-import model.BestelFacade;
-import model.Bestelling;
-import model.BestellingEvents;
-import model.Observer;
+import javafx.scene.control.Alert;
+import model.*;
+import model.kortingen.KortingEnum;
 import view.AdminView;
 import view.OrderView;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-public class BestelViewController implements Observer  {
+public class BestelViewController implements Observer {
 
-        BestelFacade facade;
-        OrderView orderView;
-        AdminView adminView;
+    BestelFacade facade;
+    OrderView orderView;
+    AdminView adminView;
 
-public BestelViewController(BestelFacade facade){
-        this.facade=facade;
-        facade.addObserver(this,BestellingEvents.TOEVOEGEN_BROODJE);
-        }
+    public BestelViewController(BestelFacade facade) {
+        this.facade = facade;
+        facade.addObserver(this, BestellingEvents.TOEVOEGEN_BROODJE);
+        facade.addObserver(this, BestellingEvents.TOEVOEGEN_BELEG);
+        facade.addObserver(this, BestellingEvents.AFSLUIT);
+    }
+
 
 public void toevoegenBroodje(String naam){
         facade.toevoegenBroodje(naam);
         orderView.getSelectButtonPane().updateStatusBroodjesKnoppen(facade.getVoorraadlijstBroodjes());
         }
 
-public void setOrderView(OrderView orderView){
-        this.orderView=orderView;
-        }
+    public void setOrderView(OrderView orderView) {
+        this.orderView = orderView;
+    }
 
-        public void setAdminView(AdminView adminView){
+    public void setAdminView(AdminView adminView) {
         this.adminView = adminView;
-        }
+    }
 
-@Override
-public void update(Bestelling bestellings,BestellingEvents bestellingEvents){
-                orderView.refresh();
-                adminView.refresh();
-        }
+    @Override
+    public void update(Bestelling bestellings, BestellingEvents bestellingEvents) {
+        orderView.setAantalbroodjesLabel(facade.getAantalBroodjes());
+        orderView.getSelectButtonPane().updateStatusBroodjesKnoppen(facade.getVoorraadlijstBroodjes());
+        orderView.getSelectButtonPane().updateStatusBelegKnoppen(facade.getVoorraadlijstBeleg());
+        orderView.getBestellijnenTabelPane().updateBestellijnen(facade.getLijstBestellijnen());
+        orderView.getBestellijnenTabelPane().refresh();
+        orderView.setVolgNummerLabel(facade.volgNumber());
+        orderView.refresh();
+        adminView.refresh();
+    }
+
+    public void startBestelling() {
+        facade.startBestelling();
+        orderView.setNewOrderButtonToInactive();
+        orderView.setAfsluitenBestellingButtonToActive();
+    }
 
     public void afsluitenBestelling() {
         facade.afsluitenBestelling();
