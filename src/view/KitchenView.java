@@ -83,4 +83,19 @@ public class KitchenView {
 		stage.show();
 	}
 
+	public void setEnableVolgendeBestelling(){
+		volgendeBestellingButton.setDisable(false);
+
+	}
+	public void setDisableVolgendeBestelling(){
+		volgendeBestellingButton.setDisable(true);
+	}
+
+	public void setDisableBestellingafronden(){
+		bestellingAfrondenButton.setDisable(true);
+	}
+	public void setEnableBestellingafronden(){
+		bestellingAfrondenButton.setDisable(false);
+	}
+
 }
