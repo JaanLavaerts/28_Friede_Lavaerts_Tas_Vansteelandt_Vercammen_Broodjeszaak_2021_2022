@@ -1,6 +1,7 @@
 package utilities;
 
 import jxl.read.biff.BiffException;
+import jxl.write.WriteException;
 import model.Item;
 import model.database.LoadSaveStrategies.LoadSaveStrategy;
 

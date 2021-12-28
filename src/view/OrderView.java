@@ -12,7 +12,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.kortingen.KortingEnum;
 import view.panels.BestellijnenTabelPane;
+import view.panels.CloneDeleteBroodjePane;
 import view.panels.SandwichOverviewPane;
 import view.panels.SelectButtonPane;
 
@@ -37,6 +39,7 @@ public class OrderView {
 
 		GridPane gridPane = new GridPane();
 		selectButtonPane = new SelectButtonPane(bestelViewController);
+		cloneDeleteBroodjePane = new CloneDeleteBroodjePane(bestelViewController);
 		root.getChildren().add(gridPane);
 
 		HBox newOrderHBox = new HBox();
@@ -53,8 +56,8 @@ public class OrderView {
 		choiceBoxHBox.setAlignment(Pos.TOP_RIGHT);
 		choiceBoxHBox.getChildren().addAll(choiceBox);
 
-		choiceBox.getItems().addAll("Goodkoopste broodje gratis", "2", "3", "4", "5");
-		choiceBox.setValue("Goodkoopste broodje gratis");
+		choiceBox.getItems().addAll(KortingEnum.GoedkoopsteGratisKorting.NAME, KortingEnum.TienProcentKorting.NAME, KortingEnum.GeenKorting.NAME );
+		choiceBox.setValue("Geen korting");
 
 		HBox paymentHBox = new HBox();
 		HBox paymentHBox2 = new HBox();
@@ -68,14 +71,15 @@ public class OrderView {
 		Button toKitchenButton = new Button("Naar Keuken");
 		Label teBetalenLabel = new Label("Te betalen: XXXXXX");
 
-
+		annuleerOrderButton = new Button("Annuleer Bestelling");
+		annuleerOrderButton.setOnAction(event -> bestelViewController.annuleer());
 
 		paymentHBox2.getChildren().addAll(payButton, toKitchenButton);
 		paymentHBox.getChildren().addAll(afsluitenBestellingButton, teBetalenLabel);
 
 		gridPane.add(newOrderHBox, 0, 0, 2, 1);
 		gridPane.add(choiceBoxHBox, 4, 0);
-		gridPane.add(paymentHBox, 0, 5, 3, 1);
+		gridPane.add(paymentHBox, 0, 5, 3, 3);
 		gridPane.add(paymentHBox2, 3, 5, 3, 3);
 		gridPane.add(selectButtonPane, 0,1, 5,1);
 		gridPane.add(new Label("Aantal Broodjes: "), 0, 2, 1, 1);

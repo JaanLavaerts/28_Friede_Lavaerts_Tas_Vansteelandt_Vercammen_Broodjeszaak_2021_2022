@@ -58,4 +58,11 @@ public class BroodjesDatabase {
         return hashMap;
     }
 
+    public void updateSold(String name) {
+        HashMap<String, Item> data = database.load();
+        Broodje broodje = (Broodje) data.get(name);
+        broodje.setVerkocht(broodje.getVerkocht() + 1);
+        data.put(name, broodje);
+        database.save(data);
+    }
 }

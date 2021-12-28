@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import model.BelegSoort;
 import model.Broodje;
+import model.BelegSoort;
 import model.database.Service;
 
 import java.util.ArrayList;

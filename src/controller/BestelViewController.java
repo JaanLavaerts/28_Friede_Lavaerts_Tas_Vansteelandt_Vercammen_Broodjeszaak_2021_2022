@@ -37,4 +37,54 @@ public void update(Bestelling bestellings,BestellingEvents bestellingEvents){
                 adminView.refresh();
         }
 
+    public void afsluitenBestelling() {
+        facade.afsluitenBestelling();
+        orderView.setPrice(facade.getPrice(getKortingChoice()));
+        orderView.setAfsluitenBestellingButtonToInactive();
+        orderView.setPayButtonToActive();
+    }
+
+    public void payBestelling() {
+        facade.payBestelling();
+        orderView.setPayButtonToInactive();
+        orderView.setToKitchenButtonToActive();
+    }
+
+    public void toKitchen() {
+        facade.addBestellingToQueue();
+        facade.updateSold();
+        orderView.setToKitchenButtonToInactive();
+        orderView.setNewOrderButtonToActive();
+    }
+
+    public String getKortingChoice(){
+        return orderView.getKortingChoice();
+    }
+
+    public void addSameBroodje() {
+        Bestellijn bestellijn = orderView.getBestellijnenTabelPane().getCurrentBestellijn();
+        if(bestellijn == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Geen broodje geselecteerd!");
+            alert.show();
+            return;
+        }
+        facade.addSameBroodje(bestellijn);
+    }
+
+    public void removeBroodje() {
+        Bestellijn bestellijn = orderView.getBestellijnenTabelPane().getCurrentBestellijn();
+        facade.removeBroodje(bestellijn);
+    }
+
+    public void annuleer() {
+        orderView.setNewOrderButtonToActive();
+        orderView.setAfsluitenBestellingButtonToInactive();
+        orderView.setPayButtonToInactive();
+        facade.getCurrentBestelling().annuleren();
+        ArrayList<Bestellijn> bestellijnen =  new ArrayList<Bestellijn>(orderView.getBestellijnenTabelPane().getBestellijnen());
+        for (Bestellijn bestellijn:
+             bestellijnen) {
+            facade.removeBroodje(bestellijn);
+        }
+    }
 }
